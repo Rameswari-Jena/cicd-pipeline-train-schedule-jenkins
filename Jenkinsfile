@@ -10,13 +10,6 @@ pipeline{
                 scripts {
                     def build() {
                         cleanWs()
-                        nodejs('Node-16.9.1')
-                        sh "yarn install"
-                        for (choice in ["ios","android"]){
-                            sh "yarn test choice"
-                            sh "yarn build choice"
-                            echo "build complete"
-                            }
                         }
                     }
                 }
