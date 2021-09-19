@@ -8,9 +8,7 @@ pipeline{
         stage('Test & Build'){
             steps{
                 scripts {
-                    def build() {
-                        cleanWs()
-                        }
+                    cleanWs()
                     }
                 }
             }
