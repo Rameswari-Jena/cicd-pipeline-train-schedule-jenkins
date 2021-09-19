@@ -28,4 +28,3 @@ pipeline{
             deleteDir() /* clean up workspace after build */
         }
     }
-}
