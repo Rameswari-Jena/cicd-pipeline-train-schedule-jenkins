@@ -12,10 +12,11 @@ pipeline{
                         cleanWs()
                         nodejs('Node-16.9.1')
                         sh "yarn install"
-                        for choice in (${params.Choose Platform})
+                        for (choice in ["ios","android"]){
                             sh "yarn test choice"
                             sh "yarn build choice"
                             echo "build complete"
+                            }
                         }
                     }
                 }
