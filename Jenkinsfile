@@ -4,16 +4,18 @@ pipeline{
     parameters ([
             choice(choices: ['ios', 'android'], description: 'Choose between two different platforms', name: 'Choose Platform')
         ])
-    stages{
-        stage('Test & Build'){
-            steps{
-                scripts {
-                    cleanWs()
-                    }
-                }
+    stages {
+        stage('Build') {
+            steps {
+                // Clean before build
+                cleanWs()
+                // We need to explicitly checkout from SCM here
+                checkout scm
+                echo "Building ${env.JOB_NAME}..."
             }
         }
     }
+	}
     post {
         always {
             deleteDir() /* clean up workspace after build */
