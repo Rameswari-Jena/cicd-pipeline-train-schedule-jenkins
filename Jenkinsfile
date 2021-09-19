@@ -15,23 +15,12 @@ pipeline{
                         for choice in ${params.Choose Platform}
                             sh "yarn test choice"
                             sh "yarn build choice"
+                            echo "build complete"
                         }
                     }
                 }
             }
         }
-        stage('build'){
-                steps {
-                    cleanWs()  // Clean before build
-                    checkout scm  // We need to explicitly checkout from SCM here
-                    scripts {
-                        def build() {
-                            for choice in 
-                        }
-                    }
-                }
-            }
-        }   
     }
     post {
         always {
