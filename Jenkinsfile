@@ -1,20 +1,34 @@
 pipeline{
     agent {label 'centos-node1'}
-    //checkout([$class: 'GitSCM', branches: [[name: 'master']],userRemoteConfigs: [[credentialsId: 'jkey-for-git', url: 'https://github.com/Rameswari-Jena/cicd-pipeline-train-schedule-jenkins']]])
-    parameters ([choice(choices: ["ios", "android"], description: 'Choose between two different platforms', name: "Choose Platform")])
-    stages {
-        stage('Build') {
+	stages {
+        stage('Setup parameters') {
             steps {
-                // Clean before build
-                cleanWs()
-                // We need to explicitly checkout from SCM here
-                checkout scm
-                echo "Building ${env.JOB_NAME}..."
+                script { 
+                    properties([
+                        parameters([
+                            choice(
+                                choices: ['ios', 'android'], 
+                                name: 'Choose_platform'
+                            )
+						])
+					])
+				}
+			}
+		}
+		stage('Build') {
+            when {
+                expression { 
+                   return params.ENVIRONMENT == 'ios'
+                }
             }
-        }
-    }
-	}
-    post {
+            steps {
+                    sh "yarn test ios"
+		    sh "yarn build ios"
+                }
+            }
+   }
+}
+	post {
         always {
             deleteDir() /* clean up workspace after build */
         }
