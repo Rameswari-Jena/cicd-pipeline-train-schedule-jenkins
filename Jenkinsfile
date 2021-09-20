@@ -20,7 +20,6 @@ pipeline{
 				}
 			}
 		}
-		stages {
         stage ('test') {
             when {
                 // do yarn test ios when ios platform is selected
@@ -32,9 +31,7 @@ pipeline{
 					yarn build ios
 					echo "building on ios!"
 					"""
-				}
 			}
 		}
 	}
-	
 }
