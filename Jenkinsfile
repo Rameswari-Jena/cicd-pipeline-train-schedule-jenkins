@@ -38,5 +38,15 @@ pipeline{
 				}
 			}
 		}
+		stage('Upload artifact to S3') {
+        dir('/home/jenkins/workspace/'){
+            withAWS(region:'ua-east-1',credentials:'newly-created-credentials-ID') {
+                 def identity=awsIdentity();
+                // Upload files from working directory to project workspace
+                s3Upload(bucket:"mobilebuild5", workingDir:'/home/jenkins/workspace/', includePathPattern:'**/*');
+				}
+
+			};
+		}
 	}
 }
