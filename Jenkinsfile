@@ -16,21 +16,25 @@ pipeline{
 			}
 		}
 		stage('Build') {
-            if  return params.platform == 'ios' {
+            if  ${params.platform} == 'ios' {
 				steps {
-					sh "yarn test ios"
-					sh "yarn build ios"
-                    echo "building source code for ios platform"
-                   }
+					script{
+							sh "yarn test ios"
+							sh "yarn build ios"
+							echo "building source code for ios platform"
+						}
+					}
 				}
 			else {
 				steps {
-					sh "yarn test android"
-					sh "yarn build android"
-                    echo "building source code for android platform"
-				}
-			}   
-		}
+					script {
+							sh "yarn test android"
+							sh "yarn build android"
+							echo "building source code for android platform"
+						}
+					}
+				}   
+			}
 
 	post {
         always {
