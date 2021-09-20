@@ -29,10 +29,10 @@ pipeline{
             steps {
                 script {
                     if (params.platform == 'ios') {
-                        sh "echo "testing on ios" > test_result.txt"
+                        sh "echo testing on ios"
                     }
 					else {
-						sh "echo 'testing on android' > test_result.txt"
+						sh "echo testing on android"
 					}
                 }
 			}
