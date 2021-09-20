@@ -35,6 +35,7 @@ pipeline{
 						sh "echo 'testing on android' > test_result.txt"
 					}
                 }
+			}
 		}
 		stage('Upload artifact to S3') {
 			steps {
