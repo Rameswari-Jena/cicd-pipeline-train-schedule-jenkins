@@ -39,14 +39,9 @@ pipeline{
 			}
 		}
 		stage('Upload artifact to S3') {
-        dir('/home/jenkins/workspace/'){
-            withAWS(region:'ua-east-1',credentials:'newly-created-credentials-ID') {
-                 def identity=awsIdentity();
-                // Upload files from working directory to project workspace
-                s3Upload(bucket:"mobilebuild5", workingDir:'/home/jenkins/workspace/', includePathPattern:'**/*');
-				}
-
-			};
+			steps {
+				s3Upload consoleLogLevel: 'INFO', dontSetBuildResultOnFailure: false, dontWaitForConcurrentBuildCompletion: false, entries: [[bucket: ' mobilebuild5', excludedFile: '', flatten: false, gzipFiles: true, keepForever: false, managedArtifacts: true, noUploadOnFailure: false, selectedRegion: 'us-east-1', showDirectlyInBrowser: false, sourceFile: '/home/jenkins/workspace/**/*', storageClass: 'STANDARD', uploadFromSlave: false, useServerSideEncryption: false, userMetadata: [[key: 'Name', value: 'built artifacts']]]], pluginFailureResultConstraint: 'FAILURE', profileName: 'S3-As-artifact storage', userMetadata: []
+			}	
 		}
 	}
 }
