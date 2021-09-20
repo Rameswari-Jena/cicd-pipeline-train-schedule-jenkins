@@ -1,7 +1,7 @@
 pipeline{
 	agent {label 'centos-node1'}
 	environment{
-		PATH = "/usr/local/bin:$PATH"
+		PATH = "/usr/bin/yarn:$PATH"
 	}
 	stages{
 		stage('git checkout') {
