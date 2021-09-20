@@ -1,9 +1,10 @@
 pipeline{
 	agent {label 'centos-node1'}
-	environment{
-		PATH = "/usr/bin/yarn:$PATH"
-	}
+	
 	tools {nodejs 'Node-10.24.1'}
+	environment{
+		PATH = "/usr/share/doc/:$PATH"
+	}
 	stages{
 		stage('git checkout') {
 			steps{
