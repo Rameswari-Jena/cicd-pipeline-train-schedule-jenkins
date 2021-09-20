@@ -29,11 +29,10 @@ pipeline{
                 expression { params.platform == 'ios' }
             }
             steps {
-				sh """
-					yarn test ios
-					yarn build ios
-					echo "building on ios!"
-					"""
+				sh "yarn test ios"
+					//yarn build ios
+					//echo "building on ios!"
+					
 			}
 		}
 	}
