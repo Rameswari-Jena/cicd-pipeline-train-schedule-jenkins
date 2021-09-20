@@ -1,5 +1,8 @@
 pipeline{
 	agent {label 'centos-node1'}
+	environment{
+		PATH = "/usr/local/bin:$PATH"
+	}
 	stages{
 		stage('git checkout') {
 			steps{
