@@ -3,7 +3,7 @@ pipeline{
 	environment{
 		PATH = "/usr/bin/yarn:$PATH"
 	}
-	tools {nodejs 'node-10.24.1'}
+	tools {nodejs 'Node-10.24.1'}
 	stages{
 		stage('git checkout') {
 			steps{
