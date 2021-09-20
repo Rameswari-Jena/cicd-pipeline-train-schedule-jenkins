@@ -32,8 +32,9 @@ pipeline{
 					yarn build ios
 					echo "building on ios!"
 					"""
-            }
-        }
+				}
+			}
+		}
 	}
 	
 }
