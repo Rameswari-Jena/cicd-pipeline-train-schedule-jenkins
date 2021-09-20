@@ -25,18 +25,16 @@ pipeline{
 				}
 			}
 		}
-        stage ('test') {
-            when {
-                // do yarn test ios when ios platform is selected
-                expression { params.platform == 'ios' }
-            }
+        stage ('unit-test') {
             steps {
-				script{
-					sh "yarn test ios"
-					//yarn build ios
-					//echo "building on ios!"
-				}
-			}
+                script {
+                    if (params.platform == 'ios) {
+                        sh "echo "testing on ios" > test_result.txt"
+                    }
+					else {
+						sh "echo 'testing on android' > test_result.txt"
+					}
+                }
 		}
 		stage('Upload artifact to S3') {
 			steps {
