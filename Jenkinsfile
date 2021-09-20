@@ -28,7 +28,7 @@ pipeline{
         stage ('unit-test') {
             steps {
                 script {
-                    if (params.platform == 'ios') {
+                    if (params.platform ='ios') {
                         sh “yarn test ios” 
                     }
 					else {
