@@ -1,6 +1,6 @@
 pipeline{
 	agent {label 'centos-node1'}
-	properties([
+	options([
 		parameters([choice(choices: ['ios', 'android'], description: 'choose-platform', name: 'platform')])
 		])
 	tools {nodejs 'Node-10.24.1'}
@@ -45,9 +45,9 @@ pipeline{
 			}	
 		}
 	}
-	//post { 
-        //always { 
-            //cleanWs()
-        //}
-    //}
+	post { 
+        always { 
+            cleanWs()
+        }
+    }
 }
