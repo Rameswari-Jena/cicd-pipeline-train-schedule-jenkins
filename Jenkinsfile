@@ -33,7 +33,9 @@ pipeline{
         stage ('unit-test') {
             steps {
 				script{
-					if (param.platform =='ios') {
+					echo "Into Script"
+					echo ${param.platform}
+					if (${param.platform} =='ios') {
 						echo "executing yarn on ios"
 						nodejs('Node-10.24.1'){
 							sh "yarn test "
@@ -56,9 +58,4 @@ pipeline{
 			}	
 		}
 	}
-	post { 
-        always { 
-            cleanWs()
-        }
-    }
 }
