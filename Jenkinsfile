@@ -1,8 +1,8 @@
 pipeline{
 	agent {label 'centos-node1'}
-	parameters {
-		choice(name:"platform', choices('ios','android'), description:"choose_platform")
-		}
+	properties([
+		parameters([choice(choices: ['ios', 'android'], description: 'choose-platform', name: 'platform')])
+		])
 	tools {nodejs 'Node-10.24.1'}
 	environment{
 		PATH = "/usr/share/doc/:$PATH"
@@ -47,7 +47,7 @@ pipeline{
 	}
 	//post { 
         //always { 
-            //cleanWs()
-        //}
+           // cleanWs()
+       // }
     //}
 }
