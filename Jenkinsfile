@@ -32,14 +32,14 @@ pipeline{
 						echo "executing yarn on ios"
 						nodejs('Node-10.24.1'){
 							sh "yarn test ios"
-							sh "yarn build ios"
+							//sh "yarn build ios"
 						}
 					}
 					else {
 						echo "executing yarn on android"
 						nodejs('Node-10.24.1'){
 							sh "yarn test android"
-							sh "yarn build android"
+							//sh "yarn build android"
 						}
 					}
 				}
