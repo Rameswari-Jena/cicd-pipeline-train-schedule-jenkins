@@ -27,18 +27,12 @@ pipeline{
 		}
         stage ('unit-test') {
             steps {
-                if (params.platform =='ios') {
-                    echo "executing yarn on ios"
-					nodejs('Node-10.24.1'){
-						sh "yarn test ios"
-						sh "yarn build ios"
-					}
-                }
-				else {
-					echo "executing yarn on android"
-					nodejs('Node-10.24.1'){
-						sh "yarn test android"
-						sh "yarn build android" 
+                script {
+                    if (params.platform ='ios') {
+                        sh “yarn test ios” 
+                    }
+					else {
+						sh “yarn test android” 
 					}
                 }
 			}
