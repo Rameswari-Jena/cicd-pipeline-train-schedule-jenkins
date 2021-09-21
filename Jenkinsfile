@@ -27,15 +27,17 @@ pipeline{
 		}
         stage ('unit-test') {
             steps {
-                if (param.platform =='ios') {
-                    echo "executing yarn on ios"
-					sh "yarn test ios"
-					sh "yarn build ios"
-                }
-				else {
-					echo "executing yarn on android"
-					sh "yarn test android"
-					sh "yarn build android" 
+				script{
+					if (param.platform =='ios') {
+						echo "executing yarn on ios"
+						sh "yarn test ios"
+						sh "yarn build ios"
+					}
+					else {
+						echo "executing yarn on android"
+						sh "yarn test android"
+						sh "yarn build android" 
+					}
 				}
 			}
 		}
