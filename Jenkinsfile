@@ -38,14 +38,14 @@ pipeline{
 					if (params.platform =='ios') {
 						echo "executing yarn on ios"
 						nodejs('Node-10.24.1'){
-							sh "yarn test "
-							sh "yarn build "
+							sh "yarn test"
+							sh "yarn build"
 						}
 					}
 					else {
 						echo "executing yarn on android"
 						nodejs('Node-10.24.1'){
-							sh "yarn test "
+							sh "yarn test"
 							sh "yarn build"
 						}
 					}
