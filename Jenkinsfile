@@ -37,20 +37,33 @@ pipeline{
 					echo params.platform
 					if (params.platform =='ios') {
 						echo "executing yarn on ios"
-						sh "yarn test"
-						sh "yarn build"
-						
+						sh "yarn test ios"	
 					}
-					else {
+					else if (params.platform =='android') {
 						echo "executing yarn on android"
-						
-							sh "yarn test"
-							sh "yarn build"
-						
+						sh "yarn test android"
 					}
 				}
 			}
 		}
+		stage ('Build') {
+            steps {
+				script{
+					echo "Building started"
+					echo params.platform
+					if (params.platform =='ios') {
+						echo "executing yarn on ios"
+						sh "yarn build ios"
+						
+					}
+					else if (params.platform =='android'){
+						echo "executing yarn on android"
+						sh "yarn build android"
+					}
+				}
+			}
+		}
+		
 		stage('Upload artifact to S3') {
 			steps {
 				s3Upload consoleLogLevel: 'INFO', dontSetBuildResultOnFailure: false, dontWaitForConcurrentBuildCompletion: false, entries: [[bucket: ' mobilebuild5', excludedFile: '', flatten: false, gzipFiles: true, keepForever: false, managedArtifacts: true, noUploadOnFailure: false, selectedRegion: 'us-east-1', showDirectlyInBrowser: false, sourceFile: '/home/jenkins/workspace/output/*', storageClass: 'STANDARD', uploadFromSlave: false, useServerSideEncryption: false, userMetadata: [[key: 'Name', value: 'built artifacts']]]], pluginFailureResultConstraint: 'FAILURE', profileName: 'S3-As-artifact storage', userMetadata: []
