@@ -1,7 +1,6 @@
 pipeline{
 	agent {label 'centos-node1'}
 	
-	tools {nodejs 'Node-10.24.1'}
 	environment{
 		PATH = "/usr/share/doc/:$PATH"
 	}
