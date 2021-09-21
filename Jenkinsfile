@@ -1,13 +1,14 @@
 pipeline{
 	agent {label 'centos-node1'}
 	
+	tools {nodejs 'Node-10.24.1'}
 	environment{
 		PATH = "/usr/share/doc/:$PATH"
 	}
 	stages{
 		stage('git checkout') {
 			steps{
-				git credentialsId: 'github-account', url: 'https://github.com/Rameswari-Jena/cicd-pipeline-train-schedule-jenkins'
+				git credentialsId: 'github-account', url: 'https://github.com/mymobileapp.git'
 			}
 		}
 		stage('Setup parameters') {
