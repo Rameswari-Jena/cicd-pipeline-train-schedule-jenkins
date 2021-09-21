@@ -1,8 +1,6 @@
 pipeline{
 	agent {label 'centos-node1'}
-	options([
-		parameters([choice(choices: ['ios', 'android'], description: 'choose-platform', name: 'platform')])
-		])
+	
 	tools {nodejs 'Node-10.24.1'}
 	environment{
 		PATH = "/usr/share/doc/:$PATH"
@@ -13,7 +11,20 @@ pipeline{
 				git credentialsId: 'github-account', url: 'https://github.com/Rameswari-Jena/cicd-pipeline-train-schedule-jenkins'
 			}
 		}
-		
+		stage('Setup parameters') {
+            steps {
+                script { 
+                    properties([
+                        parameters([
+                            choice(
+                                choices: ['ios', 'android'], 
+                                name: 'platform'
+                            )
+						])
+					])
+				}
+			}
+		}
 		stage('clean workspace'){
 			steps {
 				cleanWs()
