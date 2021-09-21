@@ -39,8 +39,8 @@ pipeline{
 					nodejs('Node-10.24.1'){
 						sh "yarn test android"
 						sh "yarn build android" 
-				}
-                
+					}
+                }
 			}
 		}
 		stage('Upload artifact to S3') {
