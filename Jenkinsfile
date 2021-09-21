@@ -10,6 +10,16 @@ pipeline{
 			steps{
 				git credentialsId: 'github-account', url: 'https://github.com/Rameswari-Jena/cicd-pipeline-train-schedule-jenkins'
 			}
+			post{
+				success {
+					echo "test is successful"
+				}
+				failure {
+					script{
+						sh "exit 1"
+					}
+                }
+            }
 		}
 		stage('Setup parameters') {
             steps {
@@ -29,6 +39,16 @@ pipeline{
 			steps {
 				cleanWs()
 			}
+			post{
+				success {
+					echo "test is successful"
+				}
+				failure {
+					script{
+						sh "exit 1"
+					}
+                }
+            }
 		}
 		
         stage ('unit-test') {
@@ -46,6 +66,16 @@ pipeline{
 						sh "yarn test android"
 					}
 				}
+				post{
+					success {
+						echo "test is successful"
+					}
+					failure {
+						script{
+							sh "exit 1"
+						}
+                    }
+                }
 			}
 		}
 		stage ('Build') {
@@ -63,14 +93,31 @@ pipeline{
 						sh "yarn build android"
 					}
 				}
+				post{
+					success {
+						echo "build is successful"
+					}
+					failure {
+						script{
+							sh "exit 1"
+						}
+                    }
+                }
 			}
 		}
 		
 		stage('Upload artifact to S3') {
 			steps {
-				echo "current build number: currentBuild.number"
-				s3Upload consoleLogLevel: 'INFO', dontSetBuildResultOnFailure: false, dontWaitForConcurrentBuildCompletion: false, entries: [[bucket: ' mobilebuild5', excludedFile: '', flatten: false, gzipFiles: true, keepForever: false, managedArtifacts: true, noUploadOnFailure: false, selectedRegion: 'us-east-1', showDirectlyInBrowser: false, sourceFile: '/home/jenkins/workspace/*/output/*.ipa', storageClass: 'STANDARD', uploadFromSlave: false, useServerSideEncryption: false, userMetadata: [[key: 'Name', value: 'built artifacts']]]], pluginFailureResultConstraint: 'FAILURE', profileName: 'S3-As-artifact storage', userMetadata: []
-			}	
+				//echo "current build number: ${currentBuild.number}"
+				script {
+					if (params.platform =='ios') {
+						s3Upload consoleLogLevel: 'INFO', dontSetBuildResultOnFailure: false, dontWaitForConcurrentBuildCompletion: false, entries: [[bucket: ' mobilebuild5', excludedFile: '', flatten: false, gzipFiles: true, keepForever: false, managedArtifacts: true, noUploadOnFailure: false, selectedRegion: 'us-east-1', showDirectlyInBrowser: false, sourceFile: '/home/jenkins/workspace/*/output/ios_${currentBuild.number}.ipa', storageClass: 'STANDARD', uploadFromSlave: false, useServerSideEncryption: false, userMetadata: [[key: 'Name', value: 'built artifacts']]]], pluginFailureResultConstraint: 'FAILURE', profileName: 'S3-As-artifact storage', userMetadata: []
+					}	
+					else if (params.platform =='android') {
+						s3Upload consoleLogLevel: 'INFO', dontSetBuildResultOnFailure: false, dontWaitForConcurrentBuildCompletion: false, entries: [[bucket: ' mobilebuild5', excludedFile: '', flatten: false, gzipFiles: true, keepForever: false, managedArtifacts: true, noUploadOnFailure: false, selectedRegion: 'us-east-1', showDirectlyInBrowser: false, sourceFile: '/home/jenkins/workspace/*/output/android_${currentBuild.number}.ipa', storageClass: 'STANDARD', uploadFromSlave: false, useServerSideEncryption: false, userMetadata: [[key: 'Name', value: 'built artifacts']]]], pluginFailureResultConstraint: 'FAILURE', profileName: 'S3-As-artifact storage', userMetadata: []
+					}
+				}
+			}
 		}
 	}
 }
