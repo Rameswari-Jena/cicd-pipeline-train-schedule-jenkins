@@ -30,9 +30,11 @@ pipeline{
 				cleanWs()
 			}
 		}
+		
         stage ('unit-test') {
             steps {
 				script{
+					echo "current build number: ${currentBuild.number}"
 					echo "Into Script"
 					echo params.platform
 					if (params.platform =='ios') {
