@@ -35,7 +35,7 @@ pipeline{
 				script{
 					echo "Into Script"
 					echo params.platform
-					if (${param.platform} =='ios') {
+					if (params.platform =='ios') {
 						echo "executing yarn on ios"
 						nodejs('Node-10.24.1'){
 							sh "yarn test "
