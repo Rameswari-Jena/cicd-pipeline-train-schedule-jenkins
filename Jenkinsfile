@@ -1,7 +1,7 @@
 pipeline{
 	agent {label 'centos-node1'}
 	
-	tools {nodejs 'Node-10.24.1'}
+	
 	environment{
 		PATH = "/usr/share/doc/:$PATH"
 	}
@@ -27,14 +27,20 @@ pipeline{
 		}
         stage ('unit-test') {
             steps {
-                script {
-                    if (params.platform ='ios') {
-                        sh “yarn test ios” 
-                    }
-					else {
-						sh “yarn test android” 
+                
+                if (params.platform ='ios') {
+                    echo "executing yarn on ios"
+					nodejs('Node-10.24.1'){
+						sh "yarn test ios"
+						sh "yarn build ios"
 					}
                 }
+				else {
+					nodejs('Node-10.24.1'){
+						sh "yarn test android"
+						sh "yarn build android" 
+				}
+                
 			}
 		}
 		stage('Upload artifact to S3') {
