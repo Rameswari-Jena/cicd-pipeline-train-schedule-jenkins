@@ -27,14 +27,22 @@ pipeline{
 		}
         stage ('unit-test') {
             steps {
-                script {
-                    if (param.platform =='ios') {
-                        sh “yarn test ios” 
-                    }
-					else {
-						sh “yarn test android” 
+				script{
+					if (param.platform =='ios') {
+						echo "executing yarn on ios"
+						nodejs('Node-10.24.1'){
+							sh "yarn test "
+							sh "yarn build "
+						}
 					}
-                }
+					else {
+						echo "executing yarn on android"
+						nodejs('Node-10.24.1'){
+							sh "yarn test "
+							sh "yarn build"
+						}
+					}
+				}
 			}
 		}
 		stage('Upload artifact to S3') {
