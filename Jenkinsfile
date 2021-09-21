@@ -1,6 +1,7 @@
 pipeline{
 	agent {label 'centos-node1'}
 	
+	//tools {nodejs 'Node-10.24.1'}
 	environment{
 		PATH = "/usr/share/doc/:$PATH"
 	}
@@ -26,7 +27,6 @@ pipeline{
 		}
         stage ('unit-test') {
             steps {
-                
                 if (${params.platform} =='ios') {
                     echo "executing yarn on ios"
 					nodejs('Node-10.24.1'){
