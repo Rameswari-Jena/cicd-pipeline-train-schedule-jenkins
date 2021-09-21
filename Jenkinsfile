@@ -25,6 +25,11 @@ pipeline{
 				}
 			}
 		}
+		stage('clean workspace'){
+			steps {
+				cleanWs()
+			}
+		}
         stage ('unit-test') {
             steps {
 				script{
