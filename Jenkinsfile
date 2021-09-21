@@ -12,7 +12,7 @@ pipeline{
 			}
 			post{
 				success {
-					echo "test is successful"
+					echo "checkout master branch sucessful"
 				}
 				failure {
 					script{
@@ -41,7 +41,7 @@ pipeline{
 			}
 			post{
 				success {
-					echo "test is successful"
+					echo "clean up is done"
 				}
 				failure {
 					script{
