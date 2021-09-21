@@ -30,13 +30,17 @@ pipeline{
 				script{
 					if (param.platform =='ios') {
 						echo "executing yarn on ios"
-						sh "yarn test ios"
-						sh "yarn build ios"
+						nodejs('Node-10.24.1'){
+							sh "yarn test ios"
+							sh "yarn build ios"
+						}
 					}
 					else {
 						echo "executing yarn on android"
-						sh "yarn test android"
-						sh "yarn build android" 
+						nodejs('Node-10.24.1'){
+							sh "yarn test android"
+							sh "yarn build android"
+						}
 					}
 				}
 			}
