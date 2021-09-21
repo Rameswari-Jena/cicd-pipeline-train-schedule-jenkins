@@ -106,7 +106,7 @@ pipeline{
 			}
 		}
 		
-		stage('Upload artifact to S3') {
+		stage('Upload artifact') {
 			steps {
 				//echo "current build number: ${currentBuild.number}"
 				script {
