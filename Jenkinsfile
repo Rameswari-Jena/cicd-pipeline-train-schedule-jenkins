@@ -43,6 +43,7 @@ pipeline{
 						dir('/home/jenkins/workspace/AD'){
 						withAWS(region:'us-east-1',credentials:'AWS Credential') {
 							def identity=awsIdentity()
+							echo "hi aws user"
 							// Upload files from working directory to project workspace
 							s3Upload(bucket:"mobilebuild5", workingDir:'/home/jenkins/workspace/AD/ios.txt', includePathPattern:'**/ios.txt')
 							}
