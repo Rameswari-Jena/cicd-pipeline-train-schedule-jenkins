@@ -35,9 +35,35 @@ pipeline{
 				}
 			}
 		}
+		stage('Upload artifact to S3') {
+			steps {
+				//echo "current build number: ${currentBuild.number}"
+				script {
+					if (params.platform =='ios') {
+						dir('/home/jenkins/workspace/project-name/output/'){
+						withAWS(region:'us-east-1',credentials:'S3-As-artifact storage') {
+							def identity=awsIdentity();
+							// Upload files from working directory to project workspace
+							s3Upload(bucket:"mobilebuild5", workingDir:'/home/jenkins/workspace/AD/ios.txt', includePathPattern:'**/ios.txt');
+							}
+						}
+					}	
+					else if (params.platform =='android') {
+						dir('/home/jenkins/workspace/project-name/output/'){
+						withAWS(region:'us-east-1',credentials:'S3-As-artifact storage') {
+							def identity=awsIdentity();
+							// Upload files from working directory to project workspace
+							s3Upload(bucket:"mobilebuild5", workingDir:'/home/jenkins/workspace/AD/android.txt/', includePathPattern:'**/android.txt');
+							}
+						}
+					}
+				}
+			}
+		}
 		stage('clean workspace'){
 			steps {
-				cleanWs()
+				//cleanWs()
+				echo "clean up"
 			}
 			post{
 				success {
@@ -51,19 +77,7 @@ pipeline{
             }
 		}
 		
-		stage('Upload artifact to S3') {
-			steps {
-				//echo "current build number: ${currentBuild.number}"
-				script {
-					if (params.platform =='ios') {
-						s3Upload consoleLogLevel: 'INFO', dontSetBuildResultOnFailure: false, dontWaitForConcurrentBuildCompletion: false, entries: [[bucket: ' mobilebuild5', excludedFile: '', flatten: false, gzipFiles: true, keepForever: false, managedArtifacts: true, noUploadOnFailure: false, selectedRegion: 'us-east-1', showDirectlyInBrowser: false, sourceFile: '/home/jenkins/workspace/test5/ios.txt', storageClass: 'STANDARD', uploadFromSlave: false, useServerSideEncryption: false, userMetadata: [[key: 'Name', value: 'built artifacts']]]], pluginFailureResultConstraint: 'FAILURE', profileName: 'S3-As-artifact storage', userMetadata: []
-					}	
-					else if (params.platform =='android') {
-						s3Upload consoleLogLevel: 'INFO', dontSetBuildResultOnFailure: false, dontWaitForConcurrentBuildCompletion: false, entries: [[bucket: ' mobilebuild5', excludedFile: '', flatten: false, gzipFiles: true, keepForever: false, managedArtifacts: true, noUploadOnFailure: false, selectedRegion: 'us-east-1', showDirectlyInBrowser: false, sourceFile: '/home/jenkins/workspace/test5/android.txt', storageClass: 'STANDARD', uploadFromSlave: false, useServerSideEncryption: false, userMetadata: [[key: 'Name', value: 'built artifacts']]]], pluginFailureResultConstraint: 'FAILURE', profileName: 'S3-As-artifact storage', userMetadata: []
-					}
-				}
-			}
-		}
+		
 		
         stage ('unit-test') {
             steps {
