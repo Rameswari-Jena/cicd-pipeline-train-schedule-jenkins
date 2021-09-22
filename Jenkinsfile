@@ -40,7 +40,7 @@ pipeline{
 				//echo "current build number: ${currentBuild.number}"
 				script {
 					if (params.platform =='ios') {
-						dir('/home/jenkins/workspace/AD/'){
+						dir('/home/jenkins/workspace/AD'){
 						withAWS(region:'us-east-1',credentials:'S3-As-artifact storage') {
 							def identity=awsIdentity();
 							// Upload files from working directory to project workspace
@@ -49,7 +49,7 @@ pipeline{
 						}
 					}	
 					else if (params.platform =='android') {
-						dir('/home/jenkins/workspace/AD/'){
+						dir('/home/jenkins/workspace/AD'){
 						withAWS(region:'us-east-1',credentials:'S3-As-artifact storage') {
 							def identity=awsIdentity();
 							// Upload files from working directory to project workspace
