@@ -40,20 +40,13 @@ pipeline{
 				//echo "current build number: ${currentBuild.number}"
 				script {
 					if (params.platform =='ios') {
-						dir('/home/jenkins/workspace/AD'){
-						withAWS(region:'us-east-1',credentials:'S3-As-artifact storage') {
-							def identity=awsIdentity();
-							// Upload files from working directory to project workspace
-							s3Upload(bucket:"mobilebuild5", workingDir:'/home/jenkins/workspace/AD/', includePathPattern:'**/ios.txt');
-							}
+						dir('/home/jenkins/workspace/AD')
+							s3Upload consoleLogLevel: 'INFO', dontSetBuildResultOnFailure: false, dontWaitForConcurrentBuildCompletion: false, entries: [[bucket: ' mobilebuild5', excludedFile: '', flatten: false, gzipFiles: false, keepForever: false, managedArtifacts: false, noUploadOnFailure: false, selectedRegion: 'us-east-1', showDirectlyInBrowser: false, sourceFile: '/home/jenkins/workspace/AD/', storageClass: 'STANDARD', uploadFromSlave: true, useServerSideEncryption: false]], pluginFailureResultConstraint: 'FAILURE', profileName: 'S3-As-artifact storage', userMetadata: []
 						}
 					}	
 					else if (params.platform =='android') {
-						dir('/home/jenkins/workspace/AD'){
-						withAWS(region:'us-east-1',credentials:'S3-As-artifact storage') {
-							def identity=awsIdentity();
-							// Upload files from working directory to project workspace
-							s3Upload(bucket:"mobilebuild5", workingDir:'/home/jenkins/workspace/AD/', includePathPattern:'**/android.txt');
+						dir('/home/jenkins/workspace/AD')
+							s3Upload consoleLogLevel: 'INFO', dontSetBuildResultOnFailure: false, dontWaitForConcurrentBuildCompletion: false, entries: [[bucket: ' mobilebuild5', excludedFile: '', flatten: false, gzipFiles: false, keepForever: false, managedArtifacts: false, noUploadOnFailure: false, selectedRegion: 'us-east-1', showDirectlyInBrowser: false, sourceFile: '/home/jenkins/workspace/AD/', storageClass: 'STANDARD', uploadFromSlave: true, useServerSideEncryption: false]], pluginFailureResultConstraint: 'FAILURE', profileName: 'S3-As-artifact storage', userMetadata: []
 							}
 						}
 					}
