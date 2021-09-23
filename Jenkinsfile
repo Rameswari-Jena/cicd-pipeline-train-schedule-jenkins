@@ -36,7 +36,7 @@ pipeline{
                 }
             }
 		}
-		stage('git checkout') {
+		//stage('git checkout') {
 			steps{
 				git credentialsId: 'github-account', url: 'https://github.com/Rameswari-Jena/cicd-pipeline-train-schedule-jenkins'
 			}
