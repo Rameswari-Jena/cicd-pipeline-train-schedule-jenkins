@@ -40,19 +40,25 @@ pipeline{
 				
 				
 				script {
-					//configure to aws profile
-					sh "aws configure set aws_access_key_id AKIA52GGWPL2K26AT6XA" 
-					sh "aws configure set aws_secret_access_key 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"
-					sh "aws configure set region us-east-1"
-					sh "aws s3 ls"
+					
 					if (params.platform =='ios') {
 						script {
+							//configure to aws profile
+							sh "aws configure set aws_access_key_id AKIA52GGWPL2K26AT6XA" 
+							sh "aws configure set aws_secret_access_key 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"
+							sh "aws configure set region us-east-1"
+							sh "aws s3 ls"
 							// Upload artifact from project workspace to aws s3 bucket
 							sh "aws s3 cp /home/jenkins/workspace/AD/ s3://mobilebuild5/ --recursive --exclude "*" --include "ios.txt""
 						}
 					}	
 					else if (params.platform =='android') {
 						script {
+							//configure to aws profile
+							sh "aws configure set aws_access_key_id AKIA52GGWPL2K26AT6XA" 
+							sh "aws configure set aws_secret_access_key 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"
+							sh "aws configure set region us-east-1"
+							sh "aws s3 ls"
 							// Upload files from working directory to project workspace
 							sh "aws s3 cp /home/jenkins/workspace/AD/ s3://mobilebuild5/ --recursive --exclude "*" --include "android.txt""
 						}
