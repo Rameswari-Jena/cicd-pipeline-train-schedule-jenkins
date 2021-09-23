@@ -3,9 +3,23 @@ pipeline{
 	
 	tools {nodejs 'Node-10.24.1'}
 	environment{
-		PATH = "/usr/share/doc/:$PATH"
+		PATH = "give-full-path-of-the-tool:$PATH"
 	}
 	stages{
+		stage('Setup parameters') {
+            steps {
+                script { 
+                    properties([
+                        parameters([
+                            choice(
+                                choices: ['ios', 'android'], 
+                                name: 'platform'
+                            )
+						])
+					])
+				}
+			}
+		}
 		stage('git checkout') {
 			steps{
 				git credentialsId: 'github-account', url: 'https://github.com/Rameswari-Jena/cicd-pipeline-train-schedule-jenkins'
@@ -21,20 +35,7 @@ pipeline{
                 }
             }
 		}
-		stage('Setup parameters') {
-            steps {
-                script { 
-                    properties([
-                        parameters([
-                            choice(
-                                choices: ['ios', 'android'], 
-                                name: 'platform'
-                            )
-						])
-					])
-				}
-			}
-		}
+		
 		stage('Upload artifact to S3') {
 			steps {
 				
