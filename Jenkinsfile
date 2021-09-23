@@ -37,8 +37,12 @@ pipeline{
 		}
 		stage('Upload artifact to S3') {
 			steps {
-				//echo "current build number: ${currentBuild.number}"
+				
+				
 				script {
+					//configure to aws profile
+					sh "aws configure set aws_access_key_id AKIA52GGWPL2K26AT6XA aws_secret_access_key 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 region us-east-1"
+					sh "aws s3 ls"
 					if (params.platform =='ios') {
 						dir('/home/jenkins/workspace/AD'){
 							withAWS(region:'us-east-1',credentials:'AWS Credential',role:'Pipeline-Project', roleAccount: '949604481780', useNode:true) {
