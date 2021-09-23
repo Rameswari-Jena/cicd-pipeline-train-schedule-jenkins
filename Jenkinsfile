@@ -53,9 +53,8 @@ pipeline{
 		stage ('build name'){
 			steps {
 				script{
-					currentBuild.displayName = ${params.platform}_${currentBuild.number}.ipa
+					currentBuild.displayName = "platform ${params.platform},_${currentBuild.number}.ipa"
 					echo "${currentBuild.displayName}"
-				
 				}
 			}
 		}
