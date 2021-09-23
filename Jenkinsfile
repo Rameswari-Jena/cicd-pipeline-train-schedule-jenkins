@@ -43,25 +43,7 @@ pipeline{
 					//configure to aws profile
 					sh "aws configure set aws_access_key_id AKIA52GGWPL2K26AT6XA aws_secret_access_key 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 region us-east-1"
 					sh "aws s3 ls"
-					if (params.platform =='ios') {
-						dir('/home/jenkins/workspace/AD'){
-							withAWS(region:'us-east-1',credentials:'AWS Credential',role:'Pipeline-Project', roleAccount: '949604481780', useNode:true) {
-								def identity=awsIdentity();
-								echo "hi aws user"
-								// Upload artifact from project workspace to aws s3 bucket
-								aws s3 cp /home/jenkins/workspace/AD/ios.txt s3://mobilebuild5/ --recursive --exclude "*" --include "*.txt"
-							}
-						};
-						
-					}	
-					else if (params.platform =='android') {
-						withAWS(region:'us-east-1',credentials:'AWS Credential') {
-							def identity=awsIdentity();
-							// Upload files from working directory to project workspace
-							s3Upload(bucket:"mobilebuild5", workingDir:'/home/jenkins/workspace/AD/android.txt', includePathPattern:'**/android.txt');
-						}
-						
-					}
+					
 				}
 			}
 		}
