@@ -62,7 +62,7 @@ pipeline{
 						sh "aws s3 ls"
 						echo "File Name is ${params.platform}_${currentBuild.number}.ipa"
 						// Upload artifact from project workspace to aws s3 bucket
-						sh "aws s3 cp ${currentBuild.displayName} s3://mobilebuild5/"
+						sh "aws s3 cp ${params.platform}_${currentBuild.number}.ipa s3://mobilebuild5/"
 					}						
 				}						
 			}
