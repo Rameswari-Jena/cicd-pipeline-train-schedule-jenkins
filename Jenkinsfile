@@ -50,23 +50,17 @@ pipeline{
                 }
             }
 		}
-		stage ('build name'){
-			steps {
-				script{
-					currentBuild.displayName = "${params.platform}_${currentBuild.number}.ipa"
-					echo "${currentBuild.displayName}"
-				}
-			}
-		}
+		
 		stage('Upload artifact to S3') {
 			steps {
 				script {
-					dir('/home/jenkins/workspace/AD/'){
+					dir('/home/jenkins/workspace/AD/output/'){
 						//configure to aws account profile
 						sh "aws configure set aws_access_key_id AKIA52GGWPL2K26AT6XA" 
 						sh "aws configure set aws_secret_access_key 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"
 						sh "aws configure set region us-east-1"
 						sh "aws s3 ls"
+						echo "File Name is ${params.platform}_${currentBuild.number}.ipa"
 						// Upload artifact from project workspace to aws s3 bucket
 						sh "aws s3 cp ${currentBuild.displayName} s3://mobilebuild5/"
 					}						
