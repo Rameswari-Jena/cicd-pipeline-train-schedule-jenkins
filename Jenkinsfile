@@ -23,7 +23,6 @@ pipeline{
 		stage('clean workspace'){
 			steps {
 				cleanWs()
-				echo "clean up"
 			}
 			post{
 				success {
@@ -51,6 +50,15 @@ pipeline{
                 }
             }
 		}
+		stage ('build name'){
+			steps {
+				script{
+					currentBuild.displayName = ${params.platform}_${currentBuild.number}.ipa
+					echo "${currentBuild.displayName}"
+				
+				}
+			}
+		}
         stage ('unit-test') {
             steps {
 				script{
@@ -65,8 +73,16 @@ pipeline{
 						sh "yarn test ios"
 					}
 				}
-				
-                
+				post{
+					success {
+						echo "test is successful"
+					}
+					failure {
+						script{
+							sh "exit 1"
+						}
+                    }
+                }
 			}
 		}
 		stage ('Build') {
@@ -84,8 +100,16 @@ pipeline{
 						sh "yarn build android"
 					}
 				}
-				
-                
+				post{
+					success {
+						echo "build is successful"
+					}
+					failure {
+						script{
+							sh "exit 1"
+						}
+                    }
+                }
 			}
 		}
 		stage('Upload artifact to S3') {
@@ -93,9 +117,8 @@ pipeline{
 				script {
 					if (params.platform =='ios') {
 						script {
-							dir('/home/jenkins/workspace/AD'){
-
-								//configure to aws profile
+							dir('/home/jenkins/workspace/project-name/'){
+								//configure to aws account profile
 								sh "aws configure set aws_access_key_id AKIA52GGWPL2K26AT6XA" 
 								sh "aws configure set aws_secret_access_key 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"
 								sh "aws configure set region us-east-1"
@@ -107,13 +130,13 @@ pipeline{
 					}	
 					else if (params.platform =='android') {
 						script {
-							dir('/home/jenkins/workspace/AD') {
-								//configure to aws profile
+							dir('/home/jenkins/workspace/project-name/') {
+								//configure aws account profile
 								sh "aws configure set aws_access_key_id AKIA52GGWPL2K26AT6XA" 
 								sh "aws configure set aws_secret_access_key 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"
 								sh "aws configure set region us-east-1"
 								sh "aws s3 ls"
-								// Upload files from working directory to project workspace
+								// Upload files from project workspace to s3 bucket
 								sh "aws s3 cp android.txt s3://mobilebuild5/"
 							}
 						}
