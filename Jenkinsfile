@@ -40,12 +40,14 @@ pipeline{
 				//echo "current build number: ${currentBuild.number}"
 				script {
 					if (params.platform =='ios') {
-						withAWS(region:'us-east-1',credentials:'AWS Credential',role:'Pipeline-Project', roleAccount: '949604481780', useNode:true) {
-							def identity=awsIdentity();
-							echo "hi aws user"
-							// Upload artifact from project workspace to aws s3 bucket
-							s3Upload(bucket:"mobilebuild5", workingDir:'/home/jenkins/workspace/AD/ios.txt', includePathPattern:'**/ios.txt');
-						}
+						dir('/home/jenkins/workspace/AD'){
+							withAWS(region:'us-east-1',credentials:'AWS Credential',role:'Pipeline-Project', roleAccount: '949604481780', useNode:true) {
+								def identity=awsIdentity();
+								echo "hi aws user"
+								// Upload artifact from project workspace to aws s3 bucket
+								aws s3 cp /home/jenkins/workspace/AD/ios.txt s3://mobilebuild5/ --recursive --exclude "*" --include "*.txt"
+							}
+						};
 						
 					}	
 					else if (params.platform =='android') {
