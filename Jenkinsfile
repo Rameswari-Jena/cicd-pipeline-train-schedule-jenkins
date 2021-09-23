@@ -51,47 +51,6 @@ pipeline{
                 }
             }
 		}
-		
-		stage('Upload artifact to S3') {
-			steps {
-				
-				
-				script {
-					
-					if (params.platform =='ios') {
-						script {
-							dir('/home/jenkins/workspace/AD'){
-
-								//configure to aws profile
-								sh "aws configure set aws_access_key_id AKIA52GGWPL2K26AT6XA" 
-								sh "aws configure set aws_secret_access_key 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"
-								sh "aws configure set region us-east-1"
-								sh "aws s3 ls"
-								// Upload artifact from project workspace to aws s3 bucket
-								sh "aws s3 cp ios.txt s3://mobilebuild5/"
-							}
-						}
-					}	
-					else if (params.platform =='android') {
-						script {
-							dir('/home/jenkins/workspace/AD') {
-								//configure to aws profile
-								sh "aws configure set aws_access_key_id AKIA52GGWPL2K26AT6XA" 
-								sh "aws configure set aws_secret_access_key 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"
-								sh "aws configure set region us-east-1"
-								sh "aws s3 ls"
-								// Upload files from working directory to project workspace
-								sh "aws s3 cp android.txt s3://mobilebuild5/"
-							}
-						}
-					}
-				}
-			}
-		}
-		
-		
-		
-		
         stage ('unit-test') {
             steps {
 				script{
@@ -100,11 +59,11 @@ pipeline{
 					echo params.platform
 					if (params.platform =='ios') {
 						echo "executing yarn on ios"
-						sh "yarn test ios"	
+						sh "yarn test "	
 					}
 					else if (params.platform =='android') {
 						echo "executing yarn on android"
-						sh "yarn test android"
+						sh "yarn test "
 					}
 				}
 				post{
@@ -144,6 +103,39 @@ pipeline{
 						}
                     }
                 }
+			}
+		}
+		stage('Upload artifact to S3') {
+			steps {
+				script {
+					if (params.platform =='ios') {
+						script {
+							dir('/home/jenkins/workspace/AD'){
+
+								//configure to aws profile
+								sh "aws configure set aws_access_key_id AKIA52GGWPL2K26AT6XA" 
+								sh "aws configure set aws_secret_access_key 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"
+								sh "aws configure set region us-east-1"
+								sh "aws s3 ls"
+								// Upload artifact from project workspace to aws s3 bucket
+								sh "aws s3 cp ios.txt s3://mobilebuild5/"
+							}
+						}
+					}	
+					else if (params.platform =='android') {
+						script {
+							dir('/home/jenkins/workspace/AD') {
+								//configure to aws profile
+								sh "aws configure set aws_access_key_id AKIA52GGWPL2K26AT6XA" 
+								sh "aws configure set aws_secret_access_key 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"
+								sh "aws configure set region us-east-1"
+								sh "aws s3 ls"
+								// Upload files from working directory to project workspace
+								sh "aws s3 cp android.txt s3://mobilebuild5/"
+							}
+						}
+					}
+				}
 			}
 		}
 		
