@@ -51,7 +51,7 @@ pipeline{
 								sh "aws configure set region us-east-1"
 								sh "aws s3 ls"
 								// Upload artifact from project workspace to aws s3 bucket
-								sh "aws s3 cp /home/jenkins/workspace/AD/ s3://mobilebuild5/ --recursive --exclude "*" --include "ios.txt""
+								sh "aws s3 cp ios.txt s3://mobilebuild5/"
 							}
 						}
 					}	
