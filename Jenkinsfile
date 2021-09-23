@@ -64,7 +64,7 @@ pipeline{
 								sh "aws configure set region us-east-1"
 								sh "aws s3 ls"
 								// Upload files from working directory to project workspace
-								sh "aws s3 cp /home/jenkins/workspace/AD/ s3://mobilebuild5/ --recursive --exclude "*" --include "android.txt""
+								sh "aws s3 cp android.txt s3://mobilebuild5/"
 							}
 						}
 					}
