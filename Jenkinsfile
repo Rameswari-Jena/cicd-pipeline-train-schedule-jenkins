@@ -59,11 +59,11 @@ pipeline{
 					echo params.platform
 					if (params.platform =='ios') {
 						echo "executing yarn on ios"
-						sh "yarn test "	
+						sh "yarn version "	
 					}
 					else if (params.platform =='android') {
 						echo "executing yarn on android"
-						sh "yarn test "
+						sh "yarn version "
 					}
 				}
 				post{
