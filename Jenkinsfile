@@ -48,7 +48,7 @@ pipeline{
 					script{
 						sh "exit 1"
 					}
-                }
+               // }
             }
 		}
 		
