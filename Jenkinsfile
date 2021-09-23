@@ -40,7 +40,7 @@ pipeline{
 				//echo "current build number: ${currentBuild.number}"
 				script {
 					if (params.platform =='ios') {
-						withAWS(region:'us-east-1',credentials:'AWS Credential',role 'Pipeline-Project', roleAccount: '949604481780', useNode:true) {
+						withAWS(region:'us-east-1',credentials:'AWS Credential',role:'Pipeline-Project', roleAccount: '949604481780', useNode:true) {
 							def identity=awsIdentity();
 							echo "hi aws user"
 							// Upload artifact from project workspace to aws s3 bucket
