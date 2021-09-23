@@ -22,7 +22,7 @@ pipeline{
 		}
 		stage('clean workspace'){
 			steps {
-				//cleanWs()
+				cleanWs()
 				echo "clean up"
 			}
 			post{
@@ -36,20 +36,20 @@ pipeline{
                 }
             }
 		}
-		//stage('git checkout') {
-			//steps{
-				//git credentialsId: 'github-account', url: 'https://github.com/Rameswari-Jena/cicd-pipeline-train-schedule-jenkins'
-			//}
-			//post{
-				//success {
-					//echo "checkout master branch sucessful"
-				//}
-				//failure {
-					//script{
-						//sh "exit 1"
-					//}
-               // }
-            //}
+		stage('git checkout') {
+			steps{
+				git credentialsId: 'github-account', url: 'https://github.com/Rameswari-Jena/cicd-pipeline-train-schedule-jenkins'
+			}
+			post{
+				success {
+					echo "checkout master branch sucessful"
+				}
+				failure {
+					script{
+						sh "exit 1"
+					}
+                }
+            }
 		}
 		
 		stage('Upload artifact to S3') {
