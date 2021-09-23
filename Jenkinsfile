@@ -55,27 +55,18 @@ pipeline{
             steps {
 				script{
 					echo "current build number: ${currentBuild.number}"
-					echo "Into Script"
 					echo params.platform
 					if (params.platform =='ios') {
 						echo "executing yarn on ios"
-						sh "yarn version "	
+						sh "yarn test ios "	
 					}
 					else if (params.platform =='android') {
 						echo "executing yarn on android"
-						sh "yarn version "
+						sh "yarn test ios"
 					}
 				}
-				post{
-					success {
-						echo "test is successful"
-					}
-					failure {
-						script{
-							sh "exit 1"
-						}
-                    }
-                }
+				
+                
 			}
 		}
 		stage ('Build') {
@@ -93,16 +84,8 @@ pipeline{
 						sh "yarn build android"
 					}
 				}
-				post{
-					success {
-						echo "build is successful"
-					}
-					failure {
-						script{
-							sh "exit 1"
-						}
-                    }
-                }
+				
+                
 			}
 		}
 		stage('Upload artifact to S3') {
