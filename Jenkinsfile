@@ -20,6 +20,22 @@ pipeline{
 				}
 			}
 		}
+		stage('clean workspace'){
+			steps {
+				//cleanWs()
+				echo "clean up"
+			}
+			post{
+				success {
+					echo "clean up is done"
+				}
+				failure {
+					script{
+						sh "exit 1"
+					}
+                }
+            }
+		}
 		stage('git checkout') {
 			steps{
 				git credentialsId: 'github-account', url: 'https://github.com/Rameswari-Jena/cicd-pipeline-train-schedule-jenkins'
@@ -72,22 +88,7 @@ pipeline{
 				}
 			}
 		}
-		stage('clean workspace'){
-			steps {
-				//cleanWs()
-				echo "clean up"
-			}
-			post{
-				success {
-					echo "clean up is done"
-				}
-				failure {
-					script{
-						sh "exit 1"
-					}
-                }
-            }
-		}
+		
 		
 		
 		
