@@ -47,11 +47,11 @@ pipeline{
 					sh "aws s3 ls"
 					if (params.platform =='ios') {
 						// Upload artifact from project workspace to aws s3 bucket
-						aws s3 cp /home/jenkins/workspace/AD/ s3://mobilebuild5/ --recursive --exclude "*" --include "ios.txt"
+						sh "aws s3 cp /home/jenkins/workspace/AD/ s3://mobilebuild5/ --recursive --exclude "*" --include "ios.txt""
 					}	
 					else if (params.platform =='android') {
 						// Upload files from working directory to project workspace
-						aws s3 cp /home/jenkins/workspace/AD/ s3://mobilebuild5/ --recursive --exclude "*" --include "android.txt"
+						sh "aws s3 cp /home/jenkins/workspace/AD/ s3://mobilebuild5/ --recursive --exclude "*" --include "android.txt""
 					}
 				}
 			}
