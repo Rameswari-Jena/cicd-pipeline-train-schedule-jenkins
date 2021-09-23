@@ -45,7 +45,6 @@ pipeline{
 					sh "aws configure set aws_secret_access_key BaHtwDANTbDGd+SGvMs4X2C3XN4ETixdNLlbtXdX"
 					sh "aws configure set region us-east-1"
 					sh "aws s3 ls"
-					
 				}
 			}
 		}
